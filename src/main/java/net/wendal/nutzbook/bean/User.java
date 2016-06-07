@@ -1,32 +1,43 @@
 package net.wendal.nutzbook.bean;
 
-import org.nutz.dao.entity.annotation.Column;
-import org.nutz.dao.entity.annotation.Id;
-import org.nutz.dao.entity.annotation.Name;
-import org.nutz.dao.entity.annotation.Table;
+import org.nutz.dao.entity.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author zhangjinci
  * @version 2016/6/6 17:57
  */
 @Table("t_user")
-public class User {
+public class User extends BasePojo {
 
     @Id
-    private int id;
+    protected int id;
     @Name
     @Column
-    private String name;
+    protected String name;
     @Column("passwd")
-    private String password;
+    @ColDefine(width = 128)
+    protected String password;
     @Column
-    private String salt;
-    @Column("ct")
-    private Date createTime;
-    @Column("ut")
-    private Date updateTime;
+    protected String salt;
+    @Column
+    private boolean locked;
+    @ManyMany(from = "u_id", relation = "t_user_role", target = Role.class, to = "role_id")
+    protected List<Role> roles;
+    @ManyMany(from = "u_id", relation = "t_user_permission", target = Permission.class, to = "permission_id")
+    protected List<Permission> permissions;
+    @One(target = UserProfile.class, field = "id", key = "userId")
+    protected UserProfile profile;
+
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
+    }
 
     public int getId() {
         return id;
@@ -60,19 +71,27 @@ public class User {
         this.salt = salt;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public boolean isLocked() {
+        return locked;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
     }
 }

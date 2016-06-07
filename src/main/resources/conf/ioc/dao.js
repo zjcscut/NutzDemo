@@ -1,4 +1,10 @@
 var ioc = {
+    conf: {
+        type: "org.nutz.ioc.impl.PropertiesProxy",
+        fields: {
+            paths: ["conf/custom/"]
+        }
+    },
     dataSource: {
         type: "com.alibaba.druid.pool.DruidDataSource",
         events: {
@@ -6,12 +12,14 @@ var ioc = {
             depose: 'close'
         },
         fields: {
-            url: "jdbc:mysql://localhost:3306/nutzbook",
-            username: "root",
-            password: "root",
+            url: {java: "$conf.get('db.url')"},
+            username: {java: "$conf.get('db.username')"},
+            password: {java: "$conf.get('db.password')"},
             testWhileIdle: true,
-            validationQuery: "select 1",
-            maxActive: 100
+            validationQuery: {java: "$conf.get('db.validationQuery')"},
+            maxActive: {java: "$conf.get('db.maxActive')"},
+            filters : "mergeStat",
+            connectionProperties : "druid.stat.slowSqlMillis=2000"
         }
     },
     dao: {
