@@ -4,6 +4,7 @@ import net.wendal.nutzbook.bean.User;
 import net.wendal.nutzbook.bean.UserProfile;
 import net.wendal.nutzbook.service.UserService;
 import net.wendal.nutzbook.util.Toolkit;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.nutz.aop.interceptor.ioc.TransAop;
 import org.nutz.dao.Cnd;
@@ -42,26 +43,26 @@ public class UserModule extends BaseModule {
         return dao.count(User.class);
     }
 
-    @At("/login")
-    //空过滤器，防止checkSession
-    @POST
-    public Object login(@Param("username") String name,
-                        @Param("password") String password,
-                        @Param("captcha") String captcha,
-                        @Attr(scope = Scope.SESSION, value = "nutz_captcha") String _captcha,
-                        HttpSession session) {
-        NutMap re = new NutMap();
-        if (!Toolkit.checkCaptcha(_captcha, captcha)) {
-            return re.setv("ok", false).setv("msg", "验证码错误");
-        }
-        int userId = userService.fetch(name, password);
-        if (userId < 0) {
-            return re.setv("ok", false).setv("msg", "用户名或密码错误");
-        } else {
-            session.setAttribute("me", userId);
-            return re.setv("ok", true);
-        }
-    }
+//    @At("/login")
+//    //空过滤器，防止checkSession
+//    @POST
+//    public Object login(@Param("username") String name,
+//                        @Param("password") String password,
+//                        @Param("captcha") String captcha,
+//                        @Attr(scope = Scope.SESSION, value = "nutz_captcha") String _captcha,
+//                        HttpSession session) {
+//        NutMap re = new NutMap();
+//        if (!Toolkit.checkCaptcha(_captcha, captcha)) {
+//            return re.setv("ok", false).setv("msg", "验证码错误");
+//        }
+//        int userId = userService.fetch(name, password);
+//        if (userId < 0) {
+//            return re.setv("ok", false).setv("msg", "用户名或密码错误");
+//        } else {
+//            session.setAttribute("me", userId);
+//            return re.setv("ok", true);
+//        }
+//    }
 
 //    @At
 //    @Ok(">>:/")
@@ -102,7 +103,7 @@ public class UserModule extends BaseModule {
     }
 
     @At("/add")
-    @RequiresUser
+    @RequiresPermissions("user:add")
     public Object add(@Param("..") User user) {
         NutMap re = new NutMap();
         String msg = checkUser(user, true);
@@ -116,7 +117,7 @@ public class UserModule extends BaseModule {
 
     //需要传入id
     @At("/update")
-    @RequiresUser
+    @RequiresPermissions("user:update")
     public Object update(@Param("password") String password, @Attr("me") int me) {
         if (Strings.isBlank(password) || password.length() < 6)
             return new NutMap().setv("ok", false).setv("msg", "密码不符合要求");
@@ -129,7 +130,7 @@ public class UserModule extends BaseModule {
     @At("/delete")
     //多个数据库操作,这里加上了事务
     @Aop(TransAop.READ_COMMITTED)
-    @RequiresUser
+    @RequiresPermissions("user:delete")
     public Object delete(@Param("id") int id, @Attr("me") int me) {
         if (me == id) {
             return new NutMap().setv("ok", false).setv("conf/msg", "不能删除当前用户!!");
@@ -140,7 +141,7 @@ public class UserModule extends BaseModule {
     }
 
     @At("/query")
-    @RequiresUser
+    @RequiresPermissions("user:query")
     public Object query(@Param("name") String name, @Param("..") Pager pager) {
         Cnd cnd = Strings.isBlank(name) ? null : Cnd.where("name", "like", "%" + name + "%");
         QueryResult qr = new QueryResult();

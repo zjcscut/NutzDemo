@@ -18,12 +18,15 @@ var ioc = {
             testWhileIdle: true,
             validationQuery: {java: "$conf.get('db.validationQuery')"},
             maxActive: {java: "$conf.get('db.maxActive')"},
-            filters : "mergeStat",
-            connectionProperties : "druid.stat.slowSqlMillis=2000"
+            filters: "mergeStat",
+            connectionProperties: "druid.stat.slowSqlMillis=2000"
         }
     },
     dao: {
         type: "org.nutz.dao.impl.NutDao",
         args: [{refer: "dataSource"}]
+    },
+    baseDao: {
+        type: "net.wendal.nutzbook.common.BaseDao"
     }
 };

@@ -1,6 +1,7 @@
 package net.wendal.nutzbook;
 
 import net.wendal.nutzbook.bean.User;
+import net.wendal.nutzbook.service.AuthorityService;
 import net.wendal.nutzbook.service.UserService;
 import org.nutz.dao.Dao;
 import org.nutz.dao.util.Daos;
@@ -23,15 +24,19 @@ public class MainSetup implements Setup {
         ioc.get(NutQuartzCronJobFactory.class);
         Dao dao = ioc.get(Dao.class);
         Daos.createTablesInPackage(dao, "net.wendal.nutzbook", false);
-
+        //重建数据库
         Daos.migration(dao, User.class, true, false);
 
         // 初始化默认根用户
-        if (dao.count(User.class) == 0) {
-            UserService userService = ioc.get(UserService.class);
-            userService.add("admin", "123456");
+        User admin = dao.fetch(User.class, "admin");
+        if (admin == null) {
+            UserService us = ioc.get(UserService.class);
+            admin = us.add("admin", "123456");
         }
 
+        AuthorityService as = ioc.get(AuthorityService.class);
+        as.initFormPackage("net.wendal.nutzbook");
+        as.checkBasicRoles(admin);
     }
 
     @Override

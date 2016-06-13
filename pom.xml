@@ -103,6 +103,13 @@
             <version>1.5.5</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>zjc</finalName>
@@ -127,6 +134,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.xml</include>
+                    <include>**/*.sqls</include>
                     <include>**/*.ini</include>
                     <include>**/*.js</include>
                     <include>**/*.properties</include>

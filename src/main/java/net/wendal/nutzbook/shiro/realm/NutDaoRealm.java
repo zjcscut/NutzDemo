@@ -79,10 +79,10 @@ public class NutDaoRealm extends AuthorizingRealm {
         CaptchaUsernamePasswordToken upToken = (CaptchaUsernamePasswordToken) token;
 
         if (Strings.isBlank(upToken.getCaptcha()))
-            throw new AuthenticationException("验证码不能为空");
+            throw new AuthenticationException("验证码不能为空哦哦");
         String _captcha = Strings.sBlank(SecurityUtils.getSubject().getSession(true).getAttribute(Toolkit.captcha_attr));
         if (!upToken.getCaptcha().equalsIgnoreCase(_captcha))
-            throw new AuthenticationException("验证码错误");
+            throw new AuthenticationException("验证码错误哦哦");
 
         User user = dao().fetch(User.class, Cnd.where("name", "=", upToken.getUsername()));
         if (user == null)

@@ -17,6 +17,7 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 @Fail("jsp:/500")
 @Localization(value = "conf/msg/", defaultLocalizationKey = "zh-CN")
 @ChainBy(args = "conf/mvc/nutzbook-mvc-chain.js")
+//Shiro的Session替换NutFilter作用域内的Session
 @SessionBy(ShiroSessionProvider.class)
 @Modules(scanPackage = true)
 public class MainModule {

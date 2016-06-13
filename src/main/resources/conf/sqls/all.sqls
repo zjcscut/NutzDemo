@@ -1,0 +1,5 @@
+/* sql1 */
+SELECT * From t_person
+
+/* sql2 */
+SELECT * From t_person tp where tp.id = @id
