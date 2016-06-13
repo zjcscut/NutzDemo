@@ -1,6 +1,7 @@
 package net.wendal.nutzbook;
 
 import org.nutz.integration.shiro.ShiroSessionProvider;
+import org.nutz.json.ToJson;
 import org.nutz.mvc.annotation.*;
 import org.nutz.mvc.ioc.provider.ComboIocProvider;
 
@@ -19,5 +20,6 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 @ChainBy(args = "conf/mvc/nutzbook-mvc-chain.js")
 @SessionBy(ShiroSessionProvider.class)
 @Modules(scanPackage = true)
+@ToJson
 public class MainModule {
 }
