@@ -27,26 +27,23 @@
         </p>
         <p>
             <label>住址:</label>
-            <select class="combox" name="province" id="province" ref="w_combox_city"
-                    refUrl="${root}/userManage/query/area?pid=0">
-                <c:if test="${not empty area}">
-                    <c:forEach var="item" items="${area}">
-                        <option value="${item.id}">${item.name}</option>
-                    </c:forEach>
-                </c:if>
+            <select class="combox" name="province" id="w_combox_province" onchange="selectCity()">
+                <%--<c:if test="${not empty province}">--%>
+                <%--<c:forEach var="item" items="${province}">--%>
+                <%--<option value="${item.id}">${item.name}</option>--%>
+                <%--</c:forEach>--%>
+                <%--</c:if>--%>
             </select>
 
-            <select class="combox" name="city" id="w_combox_city" ref="w_combox_region"
-                    refUrl="${root}/userManage/query/area?pid=$(" #province option:selected").text()">
-            <c:if test="${not empty area}">
-                <c:forEach var="item" items="${area}">
-                    <option value="${item.id}">${item.name}</option>
-                </c:forEach>
-            </c:if>
+            <select class="combox" name="city" id="w_combox_city" onchange="selectRegion()">
+                <%--<c:if test="${not empty area}">--%>
+                <%--<c:forEach var="item" items="${area}">--%>
+                <%--<option value="${item.id}">${item.name}</option>--%>
+                <%--</c:forEach>--%>
+                <%--</c:if>--%>
             </select>
-            <select class="combox" name="region" id="w_combox_region"
-                    refUrl="demo/combox/region_{value}.html">
-                <option value="all">所有区县</option>
+            <select class="combox" name="region" id="w_combox_region">
+                <%--<option value="all">所有区县</option>--%>
             </select>
         </p>
 
@@ -82,3 +79,84 @@
     </div>
 </form>
 </div>
+
+
+<script type="text/javascript">
+    var path = "<%=request.getContextPath()%>";
+
+    $(function () {
+        selectProvince();
+        $("#w_combox_province").change(function () {
+            selectCity();
+        });
+        $("#w_combox_city").change(function () {
+            selectRegion();
+        });
+    });
+
+    function selectProvince() {
+        $.ajax(
+                {
+                    type: "post",
+                    url: path + "/userManage/query/area",
+                    data: {
+                        pid: 0
+                    },
+                    success: function (data) {
+                        $("#w_combox_province").empty();
+                        $.each(data, function (index, item) {
+                            var option = "<option value='" + item.id + "'>" + item.name + "</option>";
+                            $("#w_combox_province").append(option);
+                        });
+                    }
+                })
+    }
+
+
+    //根据选择的省级获取城市列表
+    function selectCity() {
+//        var provinceId = $("#w_combox_province").val();
+        $.ajax({
+            type: "post",
+            url: path + "/userManage/query/area",
+            data: {
+                pid: $("#w_combox_province").attr("value")
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#w_combox_city").empty();
+                $.each(data, function (index, item) {
+//                    var selected = "";
+//                    if (item.provinceId == provinceid) {
+//                        selected = "selected";
+//                    }
+                    var option = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $("#w_combox_city").append(option);
+                });
+//                selectRegion();
+            }
+        });
+    }
+    //根据选择的城市获取地区列表
+    function selectRegion() {
+        $.ajax({
+            type: "post",
+            url: path + "/userManage/query/area",
+            data: {
+                pid: $("#w_combox_city").attr("value")
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#w_combox_region").empty();
+                $.each(data, function (index, item) {
+//                    var selected = "";
+//                    if (item.provinceId == provinceid) {
+//                        selected = "selected";
+//                    }
+                    var option = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $("#w_combox_region").append(option);
+                });
+            }
+        });
+    }
+</script>
