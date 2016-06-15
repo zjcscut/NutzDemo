@@ -5,9 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Condition;
 import org.nutz.dao.Dao;
+import org.nutz.dao.Sqls;
 import org.nutz.dao.entity.Entity;
 import org.nutz.dao.entity.MappingField;
 import org.nutz.dao.sql.Criteria;
+import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 
@@ -31,6 +33,13 @@ public class BaseDao {
         }
     }
 
+    public Sql createSql(String key){
+        Sql sql = Sqls.create(key);
+        // 默认设置回调数据集为records
+        sql.setCallback(Sqls.callback.records());
+        return sql;
+    }
+
     public void create(Class<?> clazz) {
         dao.create(clazz, false);  //如果存在，则不新建表
     }
@@ -48,7 +57,7 @@ public class BaseDao {
     }
 
 
-    public <T> Boolean deleteById(Integer id, Class<T> clazz) {
+    public <T> boolean deleteById(Integer id, Class<T> clazz) {
         return dao.delete(clazz, id) == 1;
     }
 

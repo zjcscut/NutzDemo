@@ -1,6 +1,6 @@
 package net.wendal.nutzbook;
 
-import net.wendal.nutzbook.bean.User;
+import net.wendal.nutzbook.bean.*;
 import net.wendal.nutzbook.service.AuthorityService;
 import net.wendal.nutzbook.service.UserService;
 import org.nutz.dao.Dao;
@@ -9,8 +9,6 @@ import org.nutz.integration.quartz.NutQuartzCronJobFactory;
 import org.nutz.ioc.Ioc;
 import org.nutz.mvc.NutConfig;
 import org.nutz.mvc.Setup;
-
-import java.util.Date;
 
 /**
  * @author zhangjinci
@@ -37,6 +35,13 @@ public class MainSetup implements Setup {
         AuthorityService as = ioc.get(AuthorityService.class);
         as.initFormPackage("net.wendal.nutzbook");
         as.checkBasicRoles(admin);
+
+        //初始化五张表
+        dao.create(ProUser.class, false);
+        dao.create(ProAddress.class, false);
+        dao.create(ProCompany.class, false);
+        dao.create(ProRelation.class,false);
+        dao.create(ProScope.class,false);
     }
 
     @Override
