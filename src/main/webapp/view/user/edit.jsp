@@ -2,141 +2,199 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-
+<c:set var="root" value="${pageContext.request.contextPath}"
+       scope="request"/>
+<%--<script type="text/javascript">--%>
+<%--function goBack() {--%>
+<%--$('#customerPersonerBack').click();--%>
+<%--}--%>
+<%--</script>--%>
 <div class="pageContent">
-    <form method="post" action="demo/common/ajaxDone.html" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+    <a style="display: none;" id="customerPersonerBack"
+       rel="customer_edit" target="dialog" mask="true" width="640" maxable="false" minable="false" resizable="false"
+       height="500"
+       title="编辑用户信息" maxable="false"></a>
+
+    <form method="post" action="<%=request.getContextPath()%>/userManage/save"
+          class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
         <div class="pageFormContent" layoutH="56">
             <p>
-                <label>客 户 号：</label>
-                <input name="sn" type="text" size="30" value="100001" readonly="readonly"/>
+                <label>主键：</label>
+                <input type="text" name="id" readonly="readonly"
+                       value="<c:if test="${not empty  user.id}">${user.id}</c:if>"/>
+            </p>
+
+            <p>
+                <label>姓名：</label>
+                <input name="name" type="text" value="<c:if test="${not empty user.name}">${user.name}</c:if>"/>
             </p>
             <p>
-                <label>客户名称：</label>
-                <input name="name" class="required" type="text" size="30" value="张慧华" alt="请输入客户名称"/>
+                <label>手机号：</label>
+                <input name="phone" type="text" value="<c:if test="${not empty user.phone}">${user.phone}</c:if>"/>
             </p>
             <p>
-                <label>部门名称：</label>
-                <input type="hidden" name="orgLookup.id" value="${orgLookup.id}"/>
-                <input type="text" class="required" name="orgLookup.orgName" value="" suggestFields="orgNum,orgName" suggestUrl="demo/database/db_lookupSuggest.html" lookupGroup="orgLookup" />
-                <a class="btnLook" href="demo/database/dwzOrgLookup.html" lookupGroup="orgLookup">查找带回</a>
+                <label>邮箱：</label>
+                <input name="email" type="text" value="<c:if test="${not empty user.email}">${user.email}</c:if>"/>
             </p>
+            <%--<p>--%>
+            <%--<label>出生日期：</label>--%>
+            <%--<<input name="user.birth" type="text"--%>
+            <%--value="<c:if test="${not empty user.birth}"><fmt:formatDate value="${user.birth}" pattern="yyyy-MM-dd HH:mm:ss"/></c:if>"/>--%>
+            <%--</p>--%>
             <p>
-                <label>部门编号：</label>
-                <input type="text" readonly="readonly" value="" name="dwz_orgLookup.orgNum" class="textInput">
-            </p>
-            <p>
-                <label>识 别 码：</label>
-                <input name="code" class="digits" type="text" size="30" alt="请输入数字"/>
-            </p>
-            <p>
-                <label>客户类型：</label>
-                <select name="type" class="required combox">
-                    <option value="">请选择</option>
-                    <option value="个人">个人</option>
-                    <option value="公司" selected>公司</option>
+                <label>住址:</label>
+
+                <%--<select class="combox" name="province" id="w_combox_province"--%>
+                <%--rel="w_combox_city" refUrl="${root}/userManage/query/area?pid={value}">--%>
+                <select name="regionId" id="area_edit" onchange="getProvince()">
+                    <c:forEach items="${regionList}" var="region">
+                        <c:if test="${empty user.regionId}">
+                            <option value="${region.id}"
+                                    <c:if test="${user.regionId eq 1}">selected</c:if>>${region.name}</option>
+                        </c:if>
+                        <c:if test="${not empty user.regionId }">
+                            <option value="${region.id}" <c:if
+                                    test="${region.id eq user.regionId}">selected</c:if>>${region.name}</option>
+                        </c:if>
+                    </c:forEach>
+                </select>
+                <select name="provinceId" id="province_edit" onchange="getCity()">
+
+                </select>
+
+                <select name="cityId" id="city_edit">
                 </select>
             </p>
+
+            <%--查找带回 --%>
             <p>
-                <label>营业执照号：</label>
-                <input type="text" size="30" />
+                <label>公司名称：</label>
+                <input type="text" name="company" value="<c:if test="${not empty user.company}">${user.company}</c:if>"
+                       lookupGroup=""/>
+                <a class="btnLook"
+                   href="${root}/userManage/company/list"
+                   lookupGroup="">查找带回</a>
             </p>
+
+            <%--是否有效--%>
             <p>
-                <label>执照签发日期：</label>
-                <input type="text" name="startDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
-            </p>
-            <p>
-                <label>执照到期日期：</label>
-                <input type="text" name="endDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
-            </p>
-            <p>
-                <label>注册资金：</label>
-                <select name="capital" class="required combox">
-                    <option value="">请选择</option>
-                    <option value="10">10</option>
-                    <option value="50" selected>50</option>
-                    <option value="100">100</option>
+                <select name="isEnable" id="isEnable">
+                    <option value="${user.isEnable}" selected>${user.enableDesc}</option>
+                    <c:choose>
+                        <c:when test="${user.isEnable eq 1}">
+                            <option value="${1 - user.isEnable}">
+                                无效
+                            </option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${1 - user.isEnable}">
+                                有效
+                            </option>
+                        </c:otherwise>
+                    </c:choose>
                 </select>
-                <span class="unit">万元</span>
             </p>
-            <p>
-                <label>注册类型：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>注册地址：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>所属行业：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>组织机构代码：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>国税登记证号码：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>地税登记证号码：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>贷款卡编码：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>法人姓名：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>法人代表身份证号：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>身份证到期日期：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>其他证件及号码：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>曾用名称：</label>
-                <input type="text" size="30" />
-            </p>
-            <p>
-                <label>首次贷款日期：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <div class="divider"></div>
-            <p>
-                <label>建档日期：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <p>
-                <label>管户经理：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <p>
-                <label>最新修改时间：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <p>
-                <label>最新修改人员：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
+
         </div>
         <div class="formBar">
             <ul>
-                <!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
-                <li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
                 <li>
-                    <div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">保 存</button>
+                        </div>
+                    </div>
+                </li>
+
+                <%--<li>--%>
+                <%--<div class="buttonActive">--%>
+                <%--<div class="buttonContent">--%>
+                <%--<button type="button" onclick="goBack();">上一步</button>--%>
+                <%--</div>--%>
+                <%--</div>--%>
+                <%--</li>--%>
+
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">取消</button>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
+
     </form>
 </div>
+<script type="text/javascript">
+    var path = "<%=request.getContextPath()%>";
+    var areaid = "${empty user.regionId ? 5 : user.regionId}";
+    var provinceid = "${empty user.provinceId ? 19: user.provinceId}";
+    var cityid = "${empty user.cityId ? 200:user.cityId}";
+
+    $(function () {
+        getProvince(areaid)
+        getCity(provinceid);
+    });
+
+    //根据所选区域获取省份
+    function getProvince(region_id) {
+        debugger
+        $("#city_edit").empty();
+        var regionId = $("#area_edit").val();
+        if (!regionId) {
+            regionId = region_id
+        }
+        $.ajax({
+            type: "post",
+            url: path + "/userManage/query/area",
+            data: {
+                pid: regionId
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#province_edit").empty();
+                $.each(data, function (index, item) {
+                    var selected = "";
+                    if (item.id == provinceid) {
+                        selected = "selected";
+                    }
+                    var option = "<option value='" + item.id + "' " + selected + ">" + item.name + "</option>";
+                    $("#province_edit").append(option);
+                });
+            }
+        });
+    }
+
+    //根据所选省份获取城市
+    function getCity(province_id) {
+        debugger
+        var provinceId = $("#province_edit").val();
+        if (!provinceId) {
+            provinceId = province_id;
+        }
+        $.ajax({
+            type: "post",
+            url: path + "/userManage/query/area",
+            data: {
+                pid: provinceId
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#city_edit").empty();
+                $.each(data, function (index, item) {
+                    var selected = "";
+                    if (cityid == item.id) {
+                        selected = "selected";
+                    }
+                    var option = "<option value='" + item.id + "'  " + selected + ">" + item.name + "</option>";
+                    $("#city_edit").append(option);
+                });
+            }
+        });
+    }
+
+
+</script>
+
+

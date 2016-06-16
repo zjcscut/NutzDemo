@@ -76,7 +76,7 @@
     <div class="panelBar">
         <ul class="toolBar">
             <%--跳转到添加新用户的界面时候要写入省市区内容--%>
-            <li><a class="add" href="${root}/view/user/add.jsp" target="navTab" title="添加新用户"><span>添加</span></a></li>
+            <li><a class="add" href="${root}/userManage/add/page" target="navTab" title="添加新用户"><span>添加</span></a></li>
             <li><a class="add" href="${root}/userManage/edit/page?id={sid_user}" target="navTab"
                    title="修改用户信息"><span>修改</span></a>
             </li>

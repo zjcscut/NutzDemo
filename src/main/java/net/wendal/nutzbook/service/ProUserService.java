@@ -19,6 +19,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.util.NutMap;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,74 +30,116 @@ import java.util.Map;
 @IocBean(name = "proUserService")
 public class ProUserService {
 
-	@Inject
-	private BaseDao baseDao;
+    @Inject
+    private BaseDao baseDao;
 
-	@Inject
-	private Dao dao;
+    @Inject
+    private Dao dao;
 
-	public PageModel<ProUser> queryByPage(int currentPage, int pageSize, Map<String, String> params) {
+    public PageModel<ProUser> queryByPage(int currentPage, int pageSize, Map<String, String> params) {
 //        System.out.println("params map -- >" + params);
-		Pager pager = new Pager();
-		if (currentPage > 0) pager.setPageNumber(currentPage);
-		if (pageSize > 0) pager.setPageSize(pageSize);
+        Pager pager = new Pager();
+        if (currentPage > 0) pager.setPageNumber(currentPage);
+        if (pageSize > 0) pager.setPageSize(pageSize);
 
-		Cnd cnd = Cnd.NEW();
-		cnd.where().and("isDelete", "=", 0);
-		if (params != null) {
-			if (StringUtils.isNotEmpty(params.get("user_id"))) {
-				cnd.and("id", "=", params.get("user_id"));
-			}
+        Cnd cnd = Cnd.NEW();
+        cnd.where().and("isDelete", "=", 0);
+        if (params != null) {
+            if (StringUtils.isNotEmpty(params.get("user_id"))) {
+                cnd.and("id", "=", params.get("user_id"));
+            }
 
-			if (StringUtils.isNotEmpty(params.get("birth"))) {
-				cnd.and("birth", "=", params.get("birth"));
-			}
+            if (StringUtils.isNotEmpty(params.get("birth"))) {
+                cnd.and("birth", "=", params.get("birth"));
+            }
 
-			if (StringUtils.isNotEmpty(params.get("user_name"))) {
-				cnd.and("name", "like", "%" + params.get("user_name") + "%");
-			}
-			if (StringUtils.isNotEmpty(params.get("phone"))) {
-				cnd.and("phone", "=", params.get("phone"));
-			}
+            if (StringUtils.isNotEmpty(params.get("user_name"))) {
+                cnd.and("name", "like", "%" + params.get("user_name") + "%");
+            }
+            if (StringUtils.isNotEmpty(params.get("phone"))) {
+                cnd.and("phone", "=", params.get("phone"));
+            }
 
-			if (StringUtils.isNotEmpty(params.get("email"))) {
-				cnd.and("email", "=", params.get("email"));
-			}
+            if (StringUtils.isNotEmpty(params.get("email"))) {
+                cnd.and("email", "=", params.get("email"));
+            }
 
-			if (StringUtils.isNotEmpty(params.get("is_enable"))) {
-				cnd.and("isEnable", "=", Integer.valueOf(params.get("is_enable")));
-			}
-		}
-		List<ProUser> list = dao.query(ProUser.class, cnd, pager);
-		int count = dao.count(ProUser.class, cnd);
-		return new PageModel<>(list, count, currentPage, pageSize);
-	}
+            if (StringUtils.isNotEmpty(params.get("is_enable"))) {
+                cnd.and("isEnable", "=", Integer.valueOf(params.get("is_enable")));
+            }
+        }
+        List<ProUser> list = dao.query(ProUser.class, cnd, pager);
+        int count = dao.count(ProUser.class, cnd);
+        return new PageModel<>(list, count, currentPage, pageSize);
+    }
 
 
-	public ProUser queryUserById(int id) {
-		return dao.fetch(ProUser.class, id);
-	}
+    public ProUser queryUserById(int id) {
+        return dao.fetch(ProUser.class, id);
+    }
 
-	public void deleteUserById(int id) {
-		ProUser user = dao.fetch(ProUser.class, id);
-		user.setIsDelete(1);
-		dao.update(user);
-	}
+    public void deleteUserById(int id) {
+        ProUser user = dao.fetch(ProUser.class, id);
+        user.setIsDelete(1);
+        dao.update(user);
+    }
 
-	public List<ProScope> queryByPid(int pid) {
-		Cnd cnd = Cnd.NEW();
-		cnd.where().and("isDelete", "=", 0).and("pid", "=", pid);
-		return dao.query(ProScope.class, cnd);
-	}
+    public List<ProScope> queryByPid(int pid) {
+        Cnd cnd = Cnd.NEW();
+        cnd.where().and("isDelete", "=", 0).and("pid", "=", pid);
+        return dao.query(ProScope.class, cnd);
+    }
 
-	public List<ProCompany> queryAll(int currentPage, int pageSize) {
-		Pager pager = new Pager();
-		if (currentPage > 0) pager.setPageNumber(currentPage);
-		if (pageSize > 0) pager.setPageSize(pageSize);
-		Cnd cnd = Cnd.NEW();
-//        cnd.where().and("isDelete", "=", 0);
-		return dao.query(ProCompany.class, null, pager);
-	}
+//    public List<ProCompany> queryAll(int currentPage, int pageSize) {
+//        Pager pager = new Pager();
+//        if (currentPage > 0) pager.setPageNumber(currentPage);
+//        if (pageSize > 0) pager.setPageSize(pageSize);
+//        Cnd cnd = Cnd.NEW();
+////        cnd.where().and("isDelete", "=", 0);
+//        return dao.query(ProCompany.class, null, pager);
+//    }
+
+    public PageModel<ProCompany> queryCompany(int currentPage, int pageSize, Map<String, String> params) {
+        Pager pager = new Pager();
+        if (currentPage > 0) pager.setPageNumber(currentPage);
+        if (pageSize > 0) pager.setPageSize(pageSize);
+        Cnd cnd = Cnd.NEW();
+
+        if (params != null) {
+            if (StringUtils.isNotEmpty(params.get("id"))) {
+                cnd.and("id", "=", Integer.valueOf(params.get("id")));
+            }
+            if (StringUtils.isNotEmpty(params.get("name"))) {
+                cnd.and("name", "LIKE", "%" + params.get("name") + "%");
+            }
+        }
+        List<ProCompany> list = dao.query(ProCompany.class, cnd, pager);
+        int count = dao.count(ProCompany.class, cnd);
+        return new PageModel<>(list, count, currentPage, pageSize);
+    }
+
+    public int updateUser(ProUser user) {
+//        System.out.println("IsEnable的值 ---- > " + user.getIsEnable());
+        if (user.getIsEnable() != null && user.getIsEnable() == 1) {
+            user.setEnableDesc("有效");
+        }
+
+        if (user.getIsEnable() != null && user.getIsEnable() == 0) {
+            user.setEnableDesc("无效");
+        }
+        return dao.updateIgnoreNull(user);
+    }
+
+    public ProUser insertNewUser(ProUser user) {
+        user.setIsDelete(0);
+        user.setEnableDesc("有效");
+        user.setIsEnable(1);
+        user.setCreateTime(new Date());
+        return dao.insert(user);
+    }
+
+
+
 
 
 }

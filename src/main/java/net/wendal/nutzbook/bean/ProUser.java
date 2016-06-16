@@ -29,8 +29,8 @@ public class ProUser {
     @Column("phone")
     private String phone;
 
-    @Column("eamil")
-    private String eamil;
+    @Column("email")
+    private String email;
 
     @Column("birth")
     private Date birth;
@@ -46,6 +46,15 @@ public class ProUser {
 
     @Column("is_delete")
     private Integer isDelete;
+
+    @Column("province_id")
+    private Integer provinceId;
+
+    @Column("city_id")
+    private Integer cityId;
+
+    @Column("region_id")
+    private Integer regionId;
 
 
     public Integer getId() {
@@ -121,12 +130,12 @@ public class ProUser {
         this.phone = phone;
     }
 
-    public String getEamil() {
-        return eamil;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEamil(String eamil) {
-        this.eamil = eamil;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Date getBirth() {
@@ -136,4 +145,30 @@ public class ProUser {
     public void setBirth(Date birth) {
         this.birth = birth;
     }
+
+    public Integer getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public Integer getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(Integer regionId) {
+        this.regionId = regionId;
+    }
+
+
 }

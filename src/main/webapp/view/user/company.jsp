@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"
        scope="request"/>
-<form id="pagerForm" action="${root}/usreManage/company/search">
+<form id="pagerForm" action="${root}/userManage/company/search">
     <input type="hidden" name="pageNum" value="1"/>
     <input type="hidden" name="numPerPage" value="${model.numPerPage}"/>
     <input type="hidden" name="orderField" value="${param.orderField}"/>
@@ -10,13 +10,13 @@
 </form>
 
 <div class="pageHeader">
-    <form rel="pagerForm" method="post" action="${root}/usreManage/company/search"
+    <form rel="pagerForm" method="post" action="${root}/userManage/company/search"
           onsubmit="return dwzSearch(this, 'dialog');">
         <div class="searchBar">
             <ul class="searchContent">
                 <li>
                     <label>编号</label>
-                    <input class="textInput" name="id" value="" readonly="readonly">
+                    <input class="textInput" name="id" value="" type="text">
                 </li>
                 <li>
                     <label>公司名称:</label>
@@ -50,32 +50,22 @@
         </thead>
         <tbody>
 
-        <c:if test="${not empty company}">
-            <c:forEach var="item" items="${company}">
-                <td>${item.id}</td>
-                <td>${item.name}</td>
-                <td>
-                    <a class="btnSelect" href="javascript:$.bringBack({id:'${item.id}', name:'${item.name}'})"
-                       title="查找带回">选择</a>
-                </td>
+        <c:if test="${not empty pm.result}">
+        <c:forEach var="item" items="${pm.result}">
+        <tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>
+                <a class="btnSelect" href="javascript:$.bringBack({company:'${item.name}'})"
+                   title="查找带回">选择</a>
+            </td>
             </c:forEach>
-        </c:if>
+            </c:if>
         </tbody>
     </table>
 
-    <div class="panelBar">
-        <div class="pages">
-            <span>每页</span>
-
-            <select name="numPerPage" onchange="dwzPageBreak({targetType:'dialog', numPerPage:'10'})">
-                <option value="10" selected="selected">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <span>条，共2条</span>
-        </div>
-        <div class="pagination" targetType="dialog" totalCount="2" numPerPage="10" pageNumShown="1"
-             currentPage="1"></div>
-    </div>
 </div>
+
+<jsp:include page="/view/public/page.jsp">
+    <jsp:param name="url" value="/userManage/company/search"/>
+</jsp:include>
