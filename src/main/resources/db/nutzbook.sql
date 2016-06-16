@@ -68,11 +68,11 @@ CREATE TABLE `pro_scope` (
   `pid` int(32) DEFAULT NULL,
   `is_delete` int(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `pro_scope` */
 
-insert  into `pro_scope`(`id`,`name`,`pid`,`is_delete`) values (1,'广东省',0,0),(2,'广州市',1,0),(3,'天河区',2,0),(4,'天河大厦',3,0);
+insert  into `pro_scope`(`id`,`name`,`pid`,`is_delete`) values (1,'华南',0,0),(2,'广东省',1,0),(3,'广州市',2,0),(4,'福建省',1,0),(5,'福建省的某市',4,0);
 
 /*Table structure for table `pro_user` */
 
@@ -84,18 +84,21 @@ CREATE TABLE `pro_user` (
   `compony` varchar(50) DEFAULT NULL,
   `address` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
-  `eamil` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   `birth` date DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
+  `create_time` date DEFAULT NULL,
   `is_enable` int(32) DEFAULT NULL,
   `enable_desc` varchar(50) DEFAULT NULL,
   `is_delete` int(32) DEFAULT NULL,
+  `province_id` int(32) DEFAULT NULL,
+  `city_id` int(32) DEFAULT NULL,
+  `region_id` int(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `pro_user` */
 
-insert  into `pro_user`(`id`,`name`,`compony`,`address`,`phone`,`eamil`,`birth`,`create_time`,`is_enable`,`enable_desc`,`is_delete`) values (1,'zjcscut','ppmoney','广州市-天河区','15118850470',NULL,'2016-06-15','2016-06-15 14:37:06',1,'有效',0),(2,'zzzzz','ppmoney','广州市-天河区','1212155454',NULL,'2016-06-14','2016-06-12 15:13:53',1,'有效',0);
+insert  into `pro_user`(`id`,`name`,`compony`,`address`,`phone`,`email`,`birth`,`create_time`,`is_enable`,`enable_desc`,`is_delete`,`province_id`,`city_id`,`region_id`) values (1,'zz','ppmoney','天河区','524242','4242424','2016-06-16','2016-06-16',0,'无效',1,2,3,1),(2,'zzzzzzz','ppmoney',NULL,'15616161651','15555@163.com','2016-06-22','2016-06-16',1,'有效',0,2,3,1);
 
 /*Table structure for table `t_big_content` */
 
