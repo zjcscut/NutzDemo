@@ -7,7 +7,7 @@ import java.util.Map;
  * @author zhangjinci
  * @version 2016/6/15 16:41
  */
-public abstract class BaseAction {
+public abstract class BaseAction extends ExportExcelAction{
 
 
     public Map<String, String> getJsonResult(String statusCode,

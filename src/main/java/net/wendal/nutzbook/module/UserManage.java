@@ -1,8 +1,10 @@
 package net.wendal.nutzbook.module;
 
+import net.wendal.nutzbook.bean.ProRelation;
 import net.wendal.nutzbook.bean.ProUser;
 import net.wendal.nutzbook.service.ProUserService;
 import net.wendal.nutzbook.util.BaseAction;
+import net.wendal.nutzbook.util.ExportExcelAction;
 import net.wendal.nutzbook.util.RequestUtil;
 import org.nutz.ioc.aop.Aop;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -14,7 +16,9 @@ import org.nutz.mvc.annotation.*;
 import org.nutz.mvc.view.JspView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,15 +38,15 @@ public class UserManage extends BaseAction {
 
 
     @At("/list")
-    public View list(HttpServletRequest request) {
+    public View list(@Param("currentPage") int pageNum, @Param("numPerPage") int numPerPage, HttpServletRequest request) {
         request.setAttribute("code", 1);
         request.setAttribute("pm", proUserService.
-                queryByPage(1, 20, RequestUtil.params(request)));
+                queryByPage(pageNum, numPerPage, RequestUtil.params(request)));
         return new JspView(path + "/list");
     }
 
     @At("/query")
-    public View query(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize, HttpServletRequest request) {
+    public View query(@Param("currentPage") int currentPage, @Param("numPerPage") int pageSize, HttpServletRequest request) {
         request.setAttribute("code", 1);
         request.setAttribute("pm", proUserService.
                 queryByPage(currentPage, pageSize, RequestUtil.params(request)));
@@ -53,8 +57,25 @@ public class UserManage extends BaseAction {
     @At("/delete")
     @Ok("json")
     public Map<String, String> delete(@Param("id") int id) {
-        proUserService.deleteUserById(id);
-        return getJsonResult("200", "删除用户成功", "user_table_page");
+        String code = "200";
+        String msg = "删除用户成功";
+        if (proUserService.deleteUserById(id) <= 0) {
+            code = "201";
+            msg = "删除用户失败";
+        }
+        return getJsonResult(code, msg, "user_table_page");
+    }
+
+    @At("/delete/list")
+    @Ok("json")
+    public Map<String, String> deleteList(@Param("ids") Integer[] ids) {
+        String code = "200";
+        String msg = "批量删除用户成功";
+        if (proUserService.deleteUserByIds(ids) == null) {
+            code = "201";
+            msg = "批量删除用户失败";
+        }
+        return getJsonResult(code, msg, "user_table_page");
     }
 
     //返回添加用户的页面 带回省级地址信息
@@ -89,14 +110,14 @@ public class UserManage extends BaseAction {
 
 
     @At("/company/list")
-    public View lookupCompany(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize, HttpServletRequest request) {
+    public View lookupCompany(@Param("currentPage") int currentPage, @Param("numPerPage") int pageSize, HttpServletRequest request) {
 //        NutMap nutMap = NutMap.NEW();
         request.setAttribute("pm", proUserService.queryCompany(currentPage, pageSize, RequestUtil.params(request)));
         return new JspView(path + "/company");
     }
 
     @At("/company/search")
-    public View searchCompany(@Param("currentPage") int currentPage, @Param("pageSize") int pageSize, HttpServletRequest request) {
+    public View searchCompany(@Param("currentPage") int currentPage, @Param("numPerPage") int pageSize, HttpServletRequest request) {
         Map<String, String> params = RequestUtil.params(request);
         request.setAttribute("pm", proUserService.queryCompany(currentPage, pageSize, params));
         return new JspView(path + "/company");
@@ -115,11 +136,88 @@ public class UserManage extends BaseAction {
     public Object saveEditUser(@Param("..") ProUser user) {
         String code = "200";
         String msg = "保存用户信息成功";
-        if (proUserService.insertNewUser(user) == null) {
-            code = "300";
+        if (proUserService.updateUser(user) <= 0) {
+            code = "201";
             msg = "保存用户信息失败";
         }
         return getJsonResult(code, msg, "user_table_page");
+    }
+
+    //导出Excel（记得加上@Ok("raw")，否则会当成jsp渲染，导致ResponseWriter和OutputStream冲突）
+    @At("/exportExcel")
+    @Ok("raw")
+    public void exportUserList(HttpServletResponse response) {
+        List<ProUser> list = proUserService.queryAllUsers();
+        daExportExcel(list, response);
+    }
+
+    @At("/relation/page")
+    public View relationList(@Param("uid") int uid, HttpServletRequest request) {
+        request.setAttribute("pm", proUserService.queryRelationByUserId(uid));
+        request.setAttribute("uid", uid);
+        return new JspView(path + "/relation");
+    }
+
+
+    @At("/relation/add/page")
+    public View relationAddPage(@Param("uid") int uid, HttpServletRequest request) {
+        request.setAttribute("uid", uid);
+        System.out.println("uid-->" + uid);
+        return new JspView(path + "/relation_add");
+    }
+
+    @At("/relation/add")
+    @Ok("json")
+    public Map<String, String> relationAdd(@Param("..") ProRelation proRelation) {
+        String code = "200";
+        String msg = "新增亲属信息成功";
+        if (proUserService.relationAdd(proRelation) == null) {
+            code = "201";
+            msg = "新增亲属信息失败";
+        }
+
+        return getJsonResult("200", "新增亲属信息成功", "relation_page");
+    }
+
+    @At("/relation/edit/page")
+    public View relationEditPage(@Param("id") int id, HttpServletRequest request) {
+        request.setAttribute("pre", proUserService.queryRelationById(id));
+        return new JspView(path + "/relation_edit");
+    }
+
+    @At("/relation/edit")
+    @Ok("json")
+    public Map<String, String> relationEdit(@Param("..") ProRelation proRelation) {
+        String code = "200";
+        String msg = "修改亲属信息成功";
+        if (proUserService.relationEdit(proRelation) <= 0) {
+            code = "201";
+            msg = "修改亲属信息失败";
+        }
+
+        return getJsonResult("200", "修改亲属信息成功", "relation_page");
+    }
+
+
+    @At("/relation/search")
+    public View relationSearch(HttpServletRequest request
+            , @Param("currentPage") int currentPage, @Param("numPerPage") int pageSize, int uid) {
+        Map<String, String> params = RequestUtil.params(request);
+        request.setAttribute("pm", proUserService.queryRelationByCondition(params, currentPage, pageSize));
+        request.setAttribute("uid", uid);
+        return new JspView(path + "/relation");
+    }
+
+    @At("/relation/delete")
+    @Ok("json")
+    public Map<String, String> relationDelete(@Param("id") int id) {
+        String code = "200";
+        String msg = "删除亲属信息成功";
+        if (proUserService.relationDelete(id) <= 0) {
+            code = "201";
+            msg = "删除亲属信息失败";
+        }
+        return getJsonResult(msg, code, "relation_page");
     }
 
 

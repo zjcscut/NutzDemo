@@ -15,7 +15,7 @@
        height="500"
        title="编辑用户信息" maxable="false"></a>
 
-    <form method="post" action="<%=request.getContextPath()%>/userManage/save"
+    <form method="post" action="<%=request.getContextPath()%>/userManage/add"
           class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
         <div class="pageFormContent" layoutH="56">
 
@@ -157,8 +157,8 @@
                     var option = "<option value='" + item.id + "' " + selected + ">" + item.name + "</option>";
                     $("#add_province_edit").append(option);
                 });
-                $("#add_province_edit option:first").select();
-//                getCity(provinceid);
+//                $("#add_province_edit option:first").select();
+                getCity(provinceid);
             }
         });
     }

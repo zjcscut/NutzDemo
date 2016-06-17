@@ -10,17 +10,17 @@
             <table class="searchContent">
                 <tr>
                     <td>
-                        用户编号:
+                        用户id:
                         <input type="text" name="user_id"/>
                     </td>
                     <td>
                         用户姓名:
                         <input type="text" name="user_name"/>
                     </td>
-                    <td>
-                        出生日期:
-                        <input type="text" name="birth" class="date"/>
-                    </td>
+                    <%--<td>--%>
+                    <%--出生日期:--%>
+                    <%--<input type="text" name="birth" class="date"/>--%>
+                    <%--</td>--%>
                     <td>
                         联系电话:
                         <input type="text" name="phone" class="number" minlength="7" maxlength="11"/>
@@ -50,6 +50,7 @@
                     <td>
                         <label> 是否有效</label>
                         <select class="combox" name="is_enable">
+                            <option value="all">全部</option>
                             <option value="1">有效</option>
                             <option value="0">无效</option>
                         </select>
@@ -77,24 +78,29 @@
         <ul class="toolBar">
             <%--跳转到添加新用户的界面时候要写入省市区内容--%>
             <li><a class="add" href="${root}/userManage/add/page" target="navTab" title="添加新用户"><span>添加</span></a></li>
+            <li><a title="确定要删除这些记录吗?" target="selectedTodo" rel="ids" href="${root}/userManage/delete/list"
+                   class="delete"><span>批量删除</span></a></li>
             <li><a class="add" href="${root}/userManage/edit/page?id={sid_user}" target="navTab"
                    title="修改用户信息"><span>修改</span></a>
             </li>
             <li><a class="delete" href="${root}/userManage/delete?id={sid_user}" target="ajaxTodo"
                    title="确定要删除吗?"><span>删除</span></a></li>
             <li class="line">line</li>
-            <li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab"
+            <li><a class="icon" href="${root}/userManage/exportExcel" target="dwzExport" targetType="navTab"
                    title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
         </ul>
     </div>
     <table class="table" width="100%" layoutH="138">
         <thead>
         <tr>
+            <th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
             <th width="20">用户id</th>
             <th width="50">用户姓名</th>
             <th width="80">手机号码</th>
+            <th width="80">Email</th>
             <th width="20">是否有效</th>
             <th width="50">创建日期</th>
+            <th width="50">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -102,15 +108,24 @@
         <c:if test="${code == 1}">
             <c:forEach items="${pm.result}" var="item">
                 <tr target="sid_user" rel="<c:if test="${not empty item.id}">${item.id}</c:if>">
+                    <td><input name="ids" value="${item.id}" type="checkbox"></td>
                     <td><c:if test="${not empty item.id}">${item.id}</c:if></td>
                     <td><c:if test="${not empty item.name}">${item.name}</c:if></td>
                     <td><c:if test="${not empty item.phone}">${item.phone}</c:if></td>
+                    <td><c:if test="${not empty item.email}">${item.email}</c:if></td>
                     <td><c:if test="${not empty item.enableDesc}">${item.enableDesc}</c:if></td>
                     <td><c:if test="${not empty item.createTime}">
                         <fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                     </c:if></td>
                         <%--<td><a class="button" href="${root}/view/user/edit.jsp?id=${item.id}"><span>修改</span></a></td>--%>
-                        <%--<td><a class="button" href="${root}/view/user/delete.jsp?id=${item.id}"><span>删除</span></a></td>--%>
+                    <td>
+                        <a class="button" href="${root}/userManage/delete?id=${item.id}"
+                           title="删除用户" target="ajaxTodo"><span>删除</span></a>
+                        <a class="button" href="${root}/userManage/relation/page?uid=${item.id}" title="查看亲属信息"
+                           rel="relation_page" target="navTab"><span>亲属信息</span></a>
+                            <%--<a class="add" href="${root}/userManage/relation/page" target="navTab" title="查看亲属信息"><span>查看亲属信息</span></a>--%>
+
+                    </td>
                 </tr>
             </c:forEach>
         </c:if>

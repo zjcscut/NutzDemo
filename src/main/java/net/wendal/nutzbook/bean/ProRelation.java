@@ -1,5 +1,7 @@
 package net.wendal.nutzbook.bean;
 
+import org.nutz.dao.entity.annotation.Column;
+import org.nutz.dao.entity.annotation.Id;
 import org.nutz.dao.entity.annotation.Table;
 
 /**
@@ -9,12 +11,19 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("pro_relation")
 public class ProRelation {
 
+    @Id
     private Integer id;
 
+    @Column("user_id")
+    private Integer userId;
+
+    @Column("name")
     private String name;
 
+    @Column("relation")
     private String relation;
 
+    @Column("is_delete")
     private Integer isDelete;
 
     public Integer getId() {
@@ -47,5 +56,13 @@ public class ProRelation {
 
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

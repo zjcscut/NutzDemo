@@ -3,8 +3,8 @@
 <c:set var="root" value="${pageContext.request.contextPath}"
        scope="request"/>
 <form id="pagerForm" action="${root}/userManage/company/search">
-    <input type="hidden" name="pageNum" value="1"/>
-    <input type="hidden" name="numPerPage" value="${model.numPerPage}"/>
+    <input type="hidden" name="currentPage" value="${pm.currentPage}"/>
+    <input type="hidden" name="numPerPage" value="${pm.numPerPage}"/>
     <input type="hidden" name="orderField" value="${param.orderField}"/>
     <input type="hidden" name="orderDirection" value="${param.orderDirection}"/>
 </form>
