@@ -146,6 +146,20 @@ public class ProUserService {
         return dao.updateIgnoreNull(user);
     }
 
+    public boolean updateUserRelation(List<ProRelation> proRelationList, int uid) {
+        Cnd cnd = Cnd.NEW();
+        cnd.where().and("userId", "=", uid);
+        dao.clear(ProRelation.class, cnd);
+
+        if (proRelationList != null && proRelationList.size() > 0) {
+            for (ProRelation pr : proRelationList) {
+                pr.setUserId(uid);
+                pr.setIsDelete(0);
+            }
+        }
+        return dao.insert(proRelationList) != null;
+    }
+
     public ProUser insertNewUser(ProUser user) {
         user.setIsDelete(0);
         user.setEnableDesc("有效");
@@ -192,6 +206,13 @@ public class ProUserService {
     public ProRelation relationAdd(ProRelation proRelation) {
         proRelation.setIsDelete(0);
         return dao.insert(proRelation);
+    }
+
+
+    public List<ProRelation> queryRelationByUid(int uid) {
+        Cnd cnd = Cnd.NEW();
+        cnd.where().and("userId", "=", uid);
+        return dao.query(ProRelation.class, cnd);
     }
 
     public ProRelation queryRelationById(int id) {

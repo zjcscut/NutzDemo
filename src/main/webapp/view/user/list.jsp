@@ -81,11 +81,11 @@
             <li><a title="确定要删除这些记录吗?" target="selectedTodo" rel="ids" href="${root}/userManage/delete/list"
                    class="delete"><span>批量删除</span></a></li>
             <li><a class="add" href="${root}/userManage/edit/page?id={sid_user}" target="navTab"
-                   title="修改用户信息"><span>修改</span></a>
+                   title="用户信息"><span>修改</span></a>
             </li>
-            <li><a class="delete" href="${root}/userManage/delete?id={sid_user}" target="ajaxTodo"
-                   title="确定要删除吗?"><span>删除</span></a></li>
-            <li class="line">line</li>
+            <%--<li><a class="delete" href="${root}/userManage/delete?id={sid_user}" target="ajaxTodo"--%>
+            <%--title="确定要删除吗?"><span>删除</span></a></li>--%>
+            <%--<li class="line">line</li>--%>
             <li><a class="icon" href="${root}/userManage/exportExcel" target="dwzExport" targetType="navTab"
                    title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
         </ul>
@@ -121,8 +121,8 @@
                     <td>
                         <a class="button" href="${root}/userManage/delete?id=${item.id}"
                            title="删除用户" target="ajaxTodo"><span>删除</span></a>
-                        <a class="button" href="${root}/userManage/relation/page?uid=${item.id}" title="查看亲属信息"
-                           rel="relation_page" target="navTab"><span>亲属信息</span></a>
+                        <a class="button" href="${root}/userManage/edit/page?id={sid_user}" title="查看详情"
+                           target="navTab"><span>查看详情</span></a>
                             <%--<a class="add" href="${root}/userManage/relation/page" target="navTab" title="查看亲属信息"><span>查看亲属信息</span></a>--%>
 
                     </td>

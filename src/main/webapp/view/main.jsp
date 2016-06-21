@@ -8,68 +8,76 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>简单实用国产jQuery UI框架 - DWZ富客户端框架(J-UI.com)</title>
-
-    <link href="../themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="../themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="../themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
-    <link href="../uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="<%=request.getContextPath() %>/static/js/dwz/themes/azure/style.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath() %>/static/js/dwz/themes/css/core.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath() %>/static/js/dwz/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath() %>/static/js/dwz/themes/css/superfish_menu.css" rel="stylesheet" type="text/css" />
     <!--[if IE]>
-    <link href="../themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="<%=request.getContextPath() %>/static/js/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" />
     <![endif]-->
 
-    <!--[if lt IE 9]>
-    <script src="../js/speedup.js" type="text/javascript"></script>
-    <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script><![endif]-->
-    <!--[if gte IE 9]><!-->
-    <script src="../js/jquery-2.1.4.min.js" type="text/javascript"></script><!--<![endif]-->
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/speedup.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/jquery-1.4.4.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/jquery.validate.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/jquery.messager.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/xheditor/xheditor-1.1.9-zh-cn.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/uploadify/scripts/jquery.uploadify.js" type="text/javascript"></script>
 
-    <script src="../js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="../js/jquery.validate.js" type="text/javascript"></script>
-    <script src="../js/jquery.bgiframe.js" type="text/javascript"></script>
-    <script src="../xheditor/xheditor-1.2.2.min.js" type="text/javascript"></script>
-    <script src="../xheditor/xheditor_lang/zh-cn.js" type="text/javascript"></script>
-    <script src="../uploadify/scripts/jquery.uploadify.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.core.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.util.date.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.validate.method.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.barDrag.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.drag.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.tree.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.accordion.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.ui.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.theme.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.switchEnv.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.alertMsg.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.contextmenu.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.navTab.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.tab.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.resize.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.dialog.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.dialogDrag.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.cssTable.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.stable.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.taskBar.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.ajax.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.pagination.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.database.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.datepicker.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.effects.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.panel.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.checkbox.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.history.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.combox.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/superfish_menu.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/hoverIntent.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dynamic.datagrid.plugin.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/newDialog.js" type="text/javascript"></script>
 
-    <!-- svg图表  supports Firefox 3.0+, Safari 3.0+, Chrome 5.0+, Opera 9.5+ and Internet Explorer 6.0+ -->
-    <%--<script type="text/javascript" src="../chart/raphael.js"></script>--%>
-    <%--<script type="text/javascript" src="../chart/g.raphael.js"></script>--%>
-    <%--<script type="text/javascript" src="../chart/g.bar.js"></script>--%>
-    <%--<script type="text/javascript" src="../chart/g.line.js"></script>--%>
-    <%--<script type="text/javascript" src="../chart/g.pie.js"></script>--%>
-    <%--<script type="text/javascript" src="../chart/g.dot.js"></script>--%>
+    <%-- <script src="<%=request.getContextPath() %>/bin/dwz.min.js" type="text/javascript"></script> --%>
 
-    <script src="../js/dwz.core.js" type="text/javascript"></script>
-    <script src="../js/dwz.util.date.js" type="text/javascript"></script>
-    <script src="../js/dwz.validate.method.js" type="text/javascript"></script>
-    <script src="../js/dwz.barDrag.js" type="text/javascript"></script>
-    <script src="../js/dwz.drag.js" type="text/javascript"></script>
-    <script src="../js/dwz.tree.js" type="text/javascript"></script>
-    <script src="../js/dwz.accordion.js" type="text/javascript"></script>
-    <script src="../js/dwz.ui.js" type="text/javascript"></script>
-    <script src="../js/dwz.theme.js" type="text/javascript"></script>
-    <script src="../js/dwz.switchEnv.js" type="text/javascript"></script>
-    <script src="../js/dwz.alertMsg.js" type="text/javascript"></script>
-    <script src="../js/dwz.contextmenu.js" type="text/javascript"></script>
-    <script src="../js/dwz.navTab.js" type="text/javascript"></script>
-    <script src="../js/dwz.tab.js" type="text/javascript"></script>
-    <script src="../js/dwz.resize.js" type="text/javascript"></script>
-    <script src="../js/dwz.dialog.js" type="text/javascript"></script>
-    <script src="../js/dwz.dialogDrag.js" type="text/javascript"></script>
-    <script src="../js/dwz.sortDrag.js" type="text/javascript"></script>
-    <script src="../js/dwz.cssTable.js" type="text/javascript"></script>
-    <script src="../js/dwz.stable.js" type="text/javascript"></script>
-    <script src="../js/dwz.taskBar.js" type="text/javascript"></script>
-    <script src="../js/dwz.ajax.js" type="text/javascript"></script>
-    <script src="../js/dwz.pagination.js" type="text/javascript"></script>
-    <script src="../js/dwz.database.js" type="text/javascript"></script>
-    <script src="../js/dwz.datepicker.js" type="text/javascript"></script>
-    <script src="../js/dwz.effects.js" type="text/javascript"></script>
-    <script src="../js/dwz.panel.js" type="text/javascript"></script>
-    <script src="../js/dwz.checkbox.js" type="text/javascript"></script>
-    <script src="../js/dwz.history.js" type="text/javascript"></script>
-    <script src="../js/dwz.combox.js" type="text/javascript"></script>
-    <script src="../js/dwz.print.js" type="text/javascript"></script>
-    <script src="../js/dwz.regional.zh.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/static/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+
+    <!-- codemirror在线编辑器 -->
+    <link href="<%=request.getContextPath() %>/static/js/CodeMirror/lib/codemirror.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/CodeMirror/lib/codemirror.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/CodeMirror/mode/javascript/javascript.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/CodeMirror/addon/selection/active-line.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/CodeMirror/addon/edit/matchbrackets.js"></script>
+    <!-- 下拉按钮菜单 -->
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/mybutton.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/jquery.table.nowrap.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/template.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/static/js/index.js"></script>
+
 
     <script type="text/javascript">
         $(function () {
@@ -236,7 +244,7 @@
                                 <li><a href="chart/test/piechart.html" target="navTab" rel="chart">饼图</a></li>
                             </ul>
                         </li>
-                        <li><a href="public/dwz.frag.xml" target="navTab" external="true">dwz.frag.xml</a></li>
+                        <li><a href="../static/js/dwz/dwz.frag.xml" target="navTab" external="true">dwz.frag.xml</a></li>
                     </ul>
                 </div>
                 <div class="accordionHeader">

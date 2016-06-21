@@ -123,20 +123,28 @@ public class UserManage extends BaseAction {
         return new JspView(path + "/company");
     }
 
-
+    //同时带出亲属信息
     @At("/edit/page")
     public View editPage(@Param("id") int id, HttpServletRequest request) {
         request.setAttribute("user", proUserService.queryUserById(id));
         request.setAttribute("regionList", proUserService.queryByPid(0));
+        List<ProRelation> proRelation = proUserService.queryRelationByUid(id);
+        request.setAttribute("proRelation", proRelation);
+        request.setAttribute("relationCount", proRelation == null ? 0 : proRelation.size());
         return new JspView(path + "/edit");
     }
 
+    //同时需要保存亲属信息
+    //@Param("::user.")获取 user.id,user.name...这个form对象
+    //@Param("::proRelation.")获取 proRelation.[i].id..这个form对象,得到的是一个List<Obj>
     @At("/save")
     @Ok("json")
-    public Object saveEditUser(@Param("..") ProUser user) {
+    public Object saveEditUser(@Param("::user.") ProUser user, @Param("::proRelation") List<ProRelation> proRelationList) {
+        System.out.println("user信息--->" + Json.toJson(user));
+        System.out.println("relation信息--->" + Json.toJson(proRelationList));
         String code = "200";
         String msg = "保存用户信息成功";
-        if (proUserService.updateUser(user) <= 0) {
+        if (proUserService.updateUser(user) <= 0 || !proUserService.updateUserRelation(proRelationList, user.getId())) {
             code = "201";
             msg = "保存用户信息失败";
         }

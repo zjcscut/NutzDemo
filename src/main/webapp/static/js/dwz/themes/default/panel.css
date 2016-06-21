@@ -1,0 +1,136 @@
+@charset "utf-8";
+
+/*面板*/
+.bl-panel {margin-bottom: 15px;background-color: #fff; overflow:hidden;
+  border: 1px solid #ddd;border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+	.bl-panel .panel-head{height:40px; line-height:40px; background:#F5F5F5; border-bottom:#ddd solid 1px; padding:0 10px;}
+	.bl-panel .h,.bl-panel .h a{font-size:14px; color:#555;}
+	.bl-panel .panel-foot{height:40px; line-height:40px; background:#F5F5F5; border-bottom:#ddd solid 1px; padding:0 10px;}
+/*没有*/
+.panel-onlycon{}	
+/*皮肤*/
+.panel-primary {border-color: #428bca;}
+.panel-primary .panel-head{background-color: #428bca;border-bottom-color: #428bca;}
+.panel-primary .h,.panel-primary .h a{color:#fff;}
+
+.panel-success {border-color: #d6e9c6;}
+.panel-success .panel-head{background-color: #dff0d8;border-bottom-color: #d6e9c6;}
+.panel-success .h,.panel-success .h a{color:#468847;}
+
+.panel-warning {border-color: #faebcc;}
+.panel-warning .panel-head{background-color: #fcf8e3; border-bottom-color: #faebcc;}
+.panel-warning .h,.panel-success .h a{color:#c09853;}
+
+.panel-danger {border-color: #ebccd1;}
+.panel-danger .panel-head{background-color: #f2dede;border-bottom-color: #ebccd1;}
+.panel-danger .h,.panel-success .h a{color:#b94a48;}
+
+body{ padding-top:10px; position:relative}
+.demobox{ width:640px; font-size:14px; color:#333;
+font-family:'Hiragino Sans GB','Microsoft Yahei',"WenQuanYi Micro Hei",SimSun,Tahoma,Arial,Helvetica,STHeiti;}
+a{ color:#333; text-decoration:none;}
+.h1 {font-size: 38px;}
+.h2 {font-size: 31px;}
+.h3 {font-size: 24px;}
+.h4 {font-size:	16px;}
+.h5,.h6 {font-size: 100%;}
+.h1,.h2,.h3,.h4,.h5,.h6{ font-weight:100;text-transform: uppercase;}
+.h1 small,.h2 small,.h3 small,.h4 small,.h5 small,.h6 small{ font-size:65%;}
+.demobox .h3{ border-bottom:#ddd solid 1px; margin-top:26px; margin-bottom:10px; padding-bottom:4px; }
+.demobox .h3 small{ padding-left:6px; }
+
+/*
+ *懒人CSS Bate V0.09
+ *作者：懒人建站 http://www.51xuediannao.com/
+ *2013-10-01———
+*/
+/*（必需）*/
+/*---------重置---------*/
+html{font-size: 100%;-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;	*overflow:auto;_overflow-x:hidden;}
+body{margin:0;}
+p,ul,ol,form,dl,h1,h2,h3,h4,h5,h6{ margin-top:0; margin-bottom:0;}
+dl,dd{ margin-left:0;}
+ul,ol{padding-left:0;*margin-left:0;list-style-type: none;}
+ul li{*zoom:1;*vertical-align:bottom;}
+em,var,cite,i{font-style:normal;}
+small{font-size:inherit;}
+s,a{text-decoration:none;}
+:focus{outline:none;}
+blockquote,q{quotes:none; margin:0;}
+table{border-collapse:collapse;border-spacing:0;empty-cells:show;/*table-layout:fixed;*/}
+img,iframe{border:none;}
+img{vertical-align: top;-ms-interpolation-mode: bicubic;/*ie7防止图片缩小失真的*/}
+/*表单*/
+textarea,select,button,.tinput,.submit,.button{margin: 0;vertical-align: middle;outline:0;background:transparent;resize:none;}
+textarea{overflow: auto; vertical-align: top;}
+input[type='checkbox'],input[type='radio']{ vertical-align:-2px;*vertical-align:middle;}
+	
+label,button,.button,.submit,.reset{ cursor:pointer;}
+button,input{*overflow: visible; line-height: normal; }/*修正IE67的input宽度bug*/
+
+/*---------基础样式---------*/
+hr,.fn-hr{width:100%;height:0;*height:2px;font-size:0;line-height:0;border:none;border-top:#CFCFCF solid 1px;margin:0 auto;}
+.fn-clear{width:100%; height:1px;line-height:0; font-size:0;clear:both; display:block;}
+.fn-cf:before,.fn-cf:after{content:""; display:table;line-height:0;}.fn-cf:after{clear:both;}.fn-cf{*zoom:1;}/*clearfix*/
+.fn-hide{display:none;}.fn-vhid,.fn-vhide{visibility:hidden;}.fn-ohid,.fn-ohide{overflow:hidden;*zoom:1;}
+.fn-fl{float:left;}.fn-fr{float:right;}.fn-unf{float:none;}
+.fn-tl{ text-align:left;}.fn-tr{text-align:right;}.fn-tc{text-align:center; }
+.fn-va-t{ vertical-align:top}.fn-va-m{ vertical-align:middle}
+.fn-abs{ position:absolute;}.fn-rel{ position:relative;}.fn-fix{position: fixed;}.fn-sta{ position:static;}
+.fn-db{display:block;}.fn-dib{display:inline-block;*display:inline;*zoom:1;}.fn-di{display:inline;}
+.fn-dbox{display:-webkit-box;display:-moz-box;display:box;}
+.fn-tablecell{display:table;}.fn-ttr{display:table-row;}
+.fn-ttd,.fn-tth{display:table-cell;*display:inline-block;*zoom:1;*vertical-align:top;}
+.fn-dib-otw{display:inline-block;*display:inline;*zoom:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.fn-mt4{ margin-top:4px;}.fn-mt6{ margin-top:6px;}.fn-mt8{ margin-top:8px;}.fn-mt10{ margin-top:10px;}
+.fn-mb4{ margin-bottom:4px;}.fn-mb6{ margin-bottom:6px;}.fn-mb8{ margin-bottom:8px;}.fn-mb10{ margin-bottom:10px;}
+.fn-ul{ list-style: disc outside none; 		margin: 0 0 0.5em 0; 	padding-left: 2em; }
+.fn-ol{ list-style: decimal outside none; 	margin: 0.5em 0; 		padding-left: 2em; }
+.fn-opa-0{	opacity:0;	filter:alpha(opacity=0);}
+.fn-rgba{background-color:rgba(0,0,0,0.5); 
+	filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=#5F000000,endcolorstr=#5F000000); 
+	color:#fff; cursor:pointer;*zoom:1;}/*背景半透明样式*/
+.fn-lockscreen,.fn-lockscreen body{ width:100%; height:100%; overflow:hidden;}/*锁屏*/	
+/*---------基础布局---------*/
+.ui-fl{		float: left;			_margin-right: -3px;}
+.ui-fr{		float: right;			_margin-left: -3px;	}
+.ui-negmr{	margin-right: -1px;		_margin-right: -4px;} /*和fn-fl配合使用*/
+.ui-negml{	margin-left: -1px; 		_margin-left: -4px;	} /*和fn-fr配合使用*/
+.ui-first{	margin-left: 0; 		padding-left:0;		}
+.ui-last{ 	margin-right: 0; 		padding-right:0; overflow: hidden; min-height: 0;}
+
+.ui-100{ width:100%;}	/*宽100%*/
+.ui-50{ width:50%;}		/*2col*/
+.ui-33{ width:33.33%;}	/*3col*/
+.ui-25{ width:25%;}		/*4col*/
+.ui-20{ width:20%;}		/*5col*/
+.ui-16{ width:16.66%;}	/*6col*/
+
+/*等分列*/
+.ui-cols-2 .col{ width:50%;}		/*2col*/
+.ui-cols-3 .col{ width:33.33%;}		/*3col*/
+.ui-cols-4 .col{ width:25%;}		/*4col*/
+.ui-cols-5 .col{ width:20%;}		/*5col*/
+.ui-cols-6 .col{ width:16.66%;}		/*6col*/
+
+/*左右两列 利用左右浮动和正负margin*/
+.ui-lr-l{ float:left;					/*width:150px;*/}
+.ui-lr-c-w{ float:left; width:100%;		/*margin-right:-200px;*/}
+.ui-lr-c-w .ui-lr-c{					/*margin-right:200px;*/}
+.ui-lr-c{ overflow:hidden;	 			/*如果布局中允许主体内容区域超出隐藏，这样处理最简单而且左内容区域不存在的时候主体区域会自动充满*/
+	/*margin-left:150px; margin-right:200px;*//*如果布局中不允许主体内容区域超出隐藏，需要加入margin-left或者margin-right*/
+}		
+.ui-lr-r{ float:right;					/*width:200px;*/}
+
+/*左中右三列*/
+.ui-lcr-l{ float:left;					/*width:150px;*/}
+.ui-lcr-c-w{ float:left; width:100%;	/*margin-left:-150px;	margin-right:-200px;*/}
+.ui-lcr-c{ 								/*margin-left:150px; 	margin-right:200px;*/}
+.ui-lcr-r{ float:right;					/*width:200px;*/}
+
+
+
+.inbox{ width:980px;}

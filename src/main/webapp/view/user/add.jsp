@@ -25,11 +25,11 @@
             </p>
             <p>
                 <label>手机号：</label>
-                <input name="phone" type="text" value="" class="number" maxlength="11" minlength="7"/>
+                <input name="phone" type="text" value="" class="required number" maxlength="11" minlength="7"/>
             </p>
             <p>
                 <label>邮箱：</label>
-                <input name="email" type="text" value="" class="email"/>
+                <input name="email" type="text" value="" class="required email"/>
             </p>
 
             <p>
@@ -125,7 +125,7 @@
     var cityid = "${empty user.cityId ? 100:user.cityId}";
 
     $(function () {
-        getProvince(areaid)
+        getProvince(areaid);
         getCity(provinceid);
     });
 
