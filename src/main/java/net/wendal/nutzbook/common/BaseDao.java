@@ -1,5 +1,6 @@
 package net.wendal.nutzbook.common;
 
+import net.wendal.nutzbook.util.PageModel;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.nutz.dao.Cnd;
@@ -16,6 +17,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangjinci
@@ -33,7 +35,11 @@ public class BaseDao {
         }
     }
 
-    public Sql createSql(String key){
+    public Dao getDao() {
+        return dao;
+    }
+
+    public Sql createSql(String key) {
         Sql sql = Sqls.create(key);
         // 默认设置回调数据集为records
         sql.setCallback(Sqls.callback.records());
@@ -109,6 +115,11 @@ public class BaseDao {
 
         }
         return findAll(clazz);
+    }
+
+
+    public PageModel<?> queryByPage(Class<?> clazz, Map<String,String> params) {
+        return new PageModel<>();
     }
 
 }

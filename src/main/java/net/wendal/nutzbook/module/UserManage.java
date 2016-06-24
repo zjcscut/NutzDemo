@@ -203,7 +203,7 @@ public class UserManage extends BaseAction {
             msg = "修改亲属信息失败";
         }
 
-        return getJsonResult("200", "修改亲属信息成功", "relation_page");
+        return getJsonResult(msg, code, "relation_page");
     }
 
 

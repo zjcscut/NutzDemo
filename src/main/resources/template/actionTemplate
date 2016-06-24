@@ -1,0 +1,148 @@
+package com.whtr.eam.business.@moduleName.@bizName.action;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.nutz.dao.entity.Record;
+import org.nutz.ioc.annotation.InjectName;
+import org.nutz.ioc.aop.Aop;
+import org.nutz.ioc.loader.annotation.Inject;
+import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.mvc.View;
+import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.view.JspView;
+
+import com.whtr.eam.common.action.ExportExcelSupportAction;
+import com.ppmoney.eam.util.PageModel;
+import com.ppmoney.eam.util.SystemContext;
+import com.ppmoney.eam.util.CommUtil;
+import com.whtr.eam.common.util.RequestUtils;
+import com.ppmoney.eam.util.SqlConditionUtils;
+import com.ppmoney.eam.model.@VoClassName;
+import com.ppmoney.eam.@moduleName.service.@VoClassNameService;
+
+/**
+ * @author GeneratorTool
+ * @date
+ *
+ */
+ @IocBean
+ @InjectName
+ @At("/")
+public class @VoClassNameAction extends ExportExcelSupportAction {
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+	private final static String PATH = "/view/biz/@bizName/@moduleName/@className/";
+
+	@Inject
+	private @VoClassNameService @classNameService;
+
+	/**
+	 * 列表查询
+	 * @param currentPage
+	 * @param numPerPage
+	 * @param request
+	 * @return
+	 */
+	@At("/@bizName/@moduleName/List")
+	public View list(@Param("pageNum") int currentPage,
+					@Param("numPerPage") int numPerPage,
+					HttpServletRequest request){
+        // 获取所有查询条件
+        Map<String, String> params = RequestUtils.params(request);
+        // 分页查询结果
+        PageModel<Record> pm = @classNameService.queryByPage(params, currentPage, numPerPage);
+		// 分页对象
+        request.setAttribute("pm", pm);
+        // 回填查询条件
+        request.setAttribute("cmap", params);
+		return new JspView(PATH+"@className_list");
+	}
+
+	/**
+	 * 保存数据
+	 * @param obj
+	 * @return
+	 */
+	@At("/@bizName/@moduleName/Save")
+	@Ok("json")
+	public Map<String,String> save(@Param("::@className.") @VoClassName obj,
+			HttpServletRequest request,
+			HttpSession sess){
+		//新增或更新
+		if (null==obj.get@Vopkname()){
+			@classNameService.save(obj);
+			this.saveLog("新增某某","新增某某" + obj.get@Vopkname(), sess, request);
+		}else{
+			@classNameService.update(obj);
+			this.saveLog("修改某某","修改某某" + obj.get@Vopkname(), sess, request);
+		}
+
+		return getJsonResult("200","数据保存成功","@className_list","","closeCurrent","");
+	}
+
+
+	/**
+	 * 删除数据
+	 * @param ids
+	 * @return
+	 */
+	@At("/@bizName/@moduleName/Del")
+	@Ok("json")
+	public Map<String,String> del(@Param("ids") String ids,
+			HttpServletRequest request,
+			HttpSession sess){
+		@classNameService.deleteByIds(CommUtil.Id2str(ids));
+		this.saveLog("删除某某","删除某某" + ids, sess, request);
+		return getJsonResult("200","数据删除成功","@className_list","","","");
+	}
+
+	/**
+	 * 跳转到编辑视图
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@At("/@bizName/@moduleName/Edit")
+	public View EditView(@Param("Id") Integer id,HttpServletRequest request){
+		if(null!=id){
+          @VoClassName @className = @classNameService.find(id);
+		  request.setAttribute("@className", @className);
+		}
+		return new JspView(PATH+"@className_edit");
+	}
+
+	/**
+	 * 跳转到查看视图
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@At("/@bizName/@moduleName/Read")
+	public View ReadView(@Param("Id") Integer id,HttpServletRequest request){
+		@VoClassName @className = @classNameService.find(id);
+		request.setAttribute("@className", @className);
+		return new JspView(PATH+"@className_read");
+	}
+
+
+	@At("/@bizName/@moduleName/@classNameExcelExport")
+    @Ok("raw")
+    public void @VoClassNameExcelExport (HttpServletRequest request, HttpServletResponse response)
+         throws ParsePropertyException, InvalidFormatException, IOException {
+         // 获取所有查询条件
+         Map<String, String> params = RequestUtils.params(request);
+         List<Record> list = @classNameService.queryList(params);
+         addExcelModel("list", list);
+         doExportExcel("template.xls");
+    }
+
+}
