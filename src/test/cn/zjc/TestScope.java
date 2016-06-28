@@ -1,6 +1,7 @@
 package cn.zjc;
 
 import net.wendal.nutzbook.bean.Person;
+import net.wendal.nutzbook.bean.ProUser;
 import net.wendal.nutzbook.bean.User;
 import net.wendal.nutzbook.common.BaseDao;
 import org.junit.Test;
@@ -217,16 +218,7 @@ public class TestScope {
         BaseDao baseDao = ioc.get(BaseDao.class, "baseDao");
         Dao dao = ioc.get(Dao.class);
         baseDao.setDao(dao);
-        List<Person> list = new ArrayList<>();
-        Person person1 = new Person();
-        person1.setName("zjc2");
-        person1.setAge(23);
-        list.add(person1);
-        Person person2 = new Person();
-        person2.setName("zjc3");
-        person2.setAge(24);
-        list.add(person2);
-        System.out.println(Json.toJson(baseDao.insert(list)));
+        baseDao.deleteByIds(ProUser.class, "id", new int[]{1, 2, 3});
     }
 
 
@@ -241,13 +233,14 @@ public class TestScope {
 
     @Test
     public void Test4() {
-        String sss = "assssbcadddddddc";
-        Pattern pattern = Pattern.compile("a.*c");
-        Matcher matcher = pattern.matcher(sss);
-        if (matcher.find()){
-            System.out.println(matcher.group());
-        }
+        String sss = "key1,val1;key2,val2;";
+        Pattern pattern = Pattern.compile("\\w+,");
+        String[] s = pattern.split(sss);
 //        String[] o = pattern.split(sss);
-//        System.out.println(o.length);
+        for (String ssss:s
+             ) {
+            System.out.println(ssss);
+        }
+
     }
 }

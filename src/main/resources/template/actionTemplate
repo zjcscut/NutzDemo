@@ -112,7 +112,7 @@ public class @VoClassNameAction extends ExportExcelSupportAction {
 	 * @return
 	 */
 	@At("/@bizName/@moduleName/Edit")
-	public View EditView(@Param("Id") Integer id,HttpServletRequest request){
+	public View editView(@Param("id") Integer id,HttpServletRequest request){
 		if(null!=id){
           @VoClassName @className = @classNameService.find(id);
 		  request.setAttribute("@className", @className);
@@ -127,7 +127,7 @@ public class @VoClassNameAction extends ExportExcelSupportAction {
 	 * @return
 	 */
 	@At("/@bizName/@moduleName/Read")
-	public View ReadView(@Param("Id") Integer id,HttpServletRequest request){
+	public View readView(@Param("id") Integer id,HttpServletRequest request){
 		@VoClassName @className = @classNameService.find(id);
 		request.setAttribute("@className", @className);
 		return new JspView(PATH+"@className_read");

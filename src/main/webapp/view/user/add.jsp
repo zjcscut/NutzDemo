@@ -41,9 +41,6 @@
 
             <p>
                 <label>住址:</label>
-
-                <%--<select class="combox" name="province" id="w_combox_province"--%>
-                <%--rel="w_combox_city" refUrl="${root}/userManage/query/area?pid={value}">--%>
                 <select name="regionId" id="add_area_edit" onchange="getProvince()">
                     <c:forEach items="${regionList}" var="region" varStatus="status">
                         <option value="${region.id}"

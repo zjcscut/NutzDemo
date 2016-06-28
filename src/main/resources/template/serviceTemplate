@@ -1,0 +1,94 @@
+package com.whtr.eam.@moduleName.service;
+
+import org.nutz.ioc.loader.annotation.IocBean;
+
+import com.whtr.eam.common.entity.@VoClassName;
+import com.whtr.eam.common.service.BaseService;
+import com.whtr.eam.common.util.PageModel;
+import com.whtr.eam.common.util.SqlConditionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.nutz.dao.Cnd;
+import org.nutz.dao.entity.Record;
+import org.nutz.dao.pager.Pager;
+import org.nutz.dao.sql.Sql;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author GeneratorTool
+ * @date
+ *
+ */
+ @IocBean
+public class @VoClassNameService extends BaseService<@VoClassName> {
+
+      /**
+       * 分页查询
+       */
+       public PageModel<Record> queryByPage (Map<String, String> params, int pageNumber, int pageSize) {
+           Cnd cnd = Cnd.NEW();
+           buildConditionByParams(params, cnd);
+
+           // load SQL from SQLs files
+           Sql sql = createSql("SQL_KEY");  //You should set this SQL_KEY by yourself
+           // set order condition
+           setOrderBy(params, cnd,"ORDER_KEY","DESC");  //You should set this ORDER_KEY by yourself
+           // set dynamic query conditions
+           sql.setCondition(cnd);
+
+           // set record sums
+           int recordCount = searchCountBySql(sql);
+
+           // open pager
+           sql.setPager(createPager(pageNumber, pageSize));
+
+           // set query records
+           basicDao.getDao().execute(sql);
+
+           List<Record> list = sql.getList(Record.class);
+
+           return new PageModel<>(list, recordCount, pageNumber, pageSize);
+       }
+
+       /**
+        * 拼接查询条件
+        */
+       @queryCon
+
+      /**
+       * 保存对象
+       */
+       public void save(@VoClassName t){
+           basicDao.getDao().insert(t);
+       }
+
+       /**
+        * 更新对象
+        */
+       public void update(@VoClassName t){
+           basicDao.getDao().update(t);
+       }
+
+//       public int deleteByIds(Class<?> clazz, String field, int[] ids) {
+//            Criteria criteria = Cnd.cri();
+//            criteria.where().andInIntArray(field, ids);
+//            return dao.clear(clazz, criteria);
+//       }
+
+        /**
+         * 根据多个id删除对象,ids为","分隔的id字符串
+         */
+        public int deleteByIds(Class<?> clazz, String field, String ids) {
+             Criteria criteria = Cnd.cri();
+             criteria.where().andInIntArray(field, ids.split(","));
+             return dao.clear(clazz, criteria);
+        }
+
+        /**
+         * 根据id查找对象
+         */
+        public @VoClassName find(int id){
+             return dao.fetch(@VoClassName.class,id);
+        }
+
+}

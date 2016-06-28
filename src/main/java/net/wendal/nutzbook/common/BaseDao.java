@@ -35,6 +35,7 @@ public class BaseDao {
         }
     }
 
+
     public Dao getDao() {
         return dao;
     }
@@ -73,6 +74,18 @@ public class BaseDao {
 
     public Boolean deleteByCondition(Class<?> clazz, Condition condition) {
         return dao.clear(clazz, condition) > 0;
+    }
+
+    public int deleteByIds(Class<?> clazz, String field, int[] ids) {
+        Criteria criteria = Cnd.cri();
+        criteria.where().andInIntArray(field, ids);
+        return dao.clear(clazz, criteria);
+    }
+
+    public int deleteByIds(Class<?> clazz, String field, String val) {
+        Criteria criteria = Cnd.cri();
+        criteria.where().andIn(field,val.split(","));
+        return dao.clear(clazz, criteria);
     }
 
     public <T> Boolean update(Class<?> clazz) {
@@ -118,7 +131,7 @@ public class BaseDao {
     }
 
 
-    public PageModel<?> queryByPage(Class<?> clazz, Map<String,String> params) {
+    public PageModel<?> queryByPage(Class<?> clazz, Map<String, String> params) {
         return new PageModel<>();
     }
 
