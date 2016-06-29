@@ -29,20 +29,20 @@ public class @VoClassNameService extends BaseService<@VoClassName> {
            Cnd cnd = Cnd.NEW();
            buildConditionByParams(params, cnd);
 
-           // load SQL from SQLs files
-           Sql sql = createSql("SQL_KEY");  //You should set this SQL_KEY by yourself
-           // set order condition
-           setOrderBy(params, cnd,"ORDER_KEY","DESC");  //You should set this ORDER_KEY by yourself
-           // set dynamic query conditions
+           // 从SQL资源文件中加载sql
+           Sql sql = createSql("SQL_KEY");  //请自行设置SQL_KEY
+           // 设置排序条件
+           setOrderBy(params, cnd,"ORDER_KEY","DESC");  //请自行设置ORDER_KEY
+           // 设置动态查询条件
            sql.setCondition(cnd);
 
-           // set record sums
+           // 查询记录总数
            int recordCount = searchCountBySql(sql);
 
-           // open pager
+           // 设置分页属性
            sql.setPager(createPager(pageNumber, pageSize));
 
-           // set query records
+           // 设置查询结果集
            basicDao.getDao().execute(sql);
 
            List<Record> list = sql.getList(Record.class);

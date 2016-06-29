@@ -47,7 +47,6 @@
             <li><a class="add"
                    href="<%=request.getContextPath() %>/@moduleName/@className/Edit.do" rel="@className_edit"
                    target="dialog" mask="true" width="800" height="600"><span>新增</span></a>
-                <%--</li>--%>
             <li><a class="delete" target="selectedTodo" postType="string"
                    title="确定要删除吗?" rel="ids" href="<%=request.getContextPath() %>/@moduleName/@className/Del.do?ids=${ids}"><span>批量删除</span></a>
             </li>
